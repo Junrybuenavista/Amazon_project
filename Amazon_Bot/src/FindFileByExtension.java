@@ -43,6 +43,8 @@ public class FindFileByExtension extends Thread{
 					 f.renameTo(new File("D:"+File.separator+"xammmp7.4"+File.separator+"mysql"+File.separator+"data"+File.separator+"amazon"+File.separator+"Amazon_data.csv"));			            
 					 System.out.println("File renamed");
 					 
+					 stmt.execute("DELETE FROM `amazon_data2`");
+					 
 					 stmt.execute("LOAD DATA INFILE 'Amazon_data.csv' \r\n"
 					 		+ "INTO TABLE amazon_data2 \r\n"
 					 		+ "FIELDS TERMINATED BY ',' \r\n"
@@ -51,7 +53,12 @@ public class FindFileByExtension extends Thread{
 					 		+ "IGNORE 1 ROWS;");
 					 
 					 driver.get("http://localhost/amazonCSV/query.php");
-					 area.append("Process complete");
+					 Thread.sleep(3000);
+					 Path fileToDeletePath = Paths.get("D:"+File.separator+"xammmp7.4"+File.separator+"mysql"+File.separator+"data"+File.separator+"amazon"+File.separator+"Amazon_data.csv");
+					 Files.delete(fileToDeletePath);
+					 
+					 area.append("process complete\n");
+					 //new SendEmail();
 					 break;
 		        } catch (IOException e) {
 		            e.printStackTrace();
@@ -65,6 +72,7 @@ public class FindFileByExtension extends Thread{
 		    	catch (SQLException eeee) {
 		            eeee.printStackTrace();
 		        }
+		    	catch(Exception ee) {ee.printStackTrace();}
     	}
     }
     

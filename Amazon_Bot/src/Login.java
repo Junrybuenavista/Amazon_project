@@ -40,9 +40,10 @@ public class Login extends JFrame implements ActionListener
 		   setTitle("AMAZON LOGIN");
    }
   public void actionPerformed(ActionEvent ae)
-   {
-	  		bot = new Amazon_Bot(text1.getText(),text2.getText(),area);
-	  		
+   {	 
+    	   bot = new Amazon_Bot(text1.getText(),text2.getText(),area);
+    	   bot.start();
+     		
    }
  
   public static void main(String arg[])
