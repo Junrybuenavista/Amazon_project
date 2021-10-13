@@ -49,8 +49,8 @@ public SendEmail() throws Exception
 	        Message message = new MimeMessage(session);
 	        message.setFrom(new InternetAddress("buenavistajunry@gmail.com"));
 	        message.setRecipients(Message.RecipientType.TO,
-	                InternetAddress.parse("junrybuenavista@yahoo.com"));
-	        		//InternetAddress.parse("michaelvinocur@htgrp.net"));
+	                //InternetAddress.parse("junrybuenavista@yahoo.com"));
+	        		InternetAddress.parse("michaelvinocur@htgrp.net"));
 	        message.setSubject("Testing Subject");
 	        
 	        URL url = new URL("http://localhost/amazonCSV/query.php");
