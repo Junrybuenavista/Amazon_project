@@ -2,6 +2,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +19,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+
+
 
 public class SendEmail {
 	
@@ -38,7 +44,7 @@ public SendEmail() throws Exception
 	                    return new PasswordAuthentication(username, password);
 	                }
 	            });
-	    while(true) {
+	  
 	    try {
 	        Message message = new MimeMessage(session);
 	        message.setFrom(new InternetAddress("buenavistajunry@gmail.com"));
@@ -46,35 +52,29 @@ public SendEmail() throws Exception
 	                InternetAddress.parse("junrybuenavista@yahoo.com"));
 	        		//InternetAddress.parse("michaelvinocur@htgrp.net"));
 	        message.setSubject("Testing Subject");
-	        message.setText("PFA");
-
-	        MimeBodyPart messageBodyPart = new MimeBodyPart();
-
-	        Multipart multipart = new MimeMultipart();
 	        
+	        URL url = new URL("http://localhost/amazonCSV/query.php");
+	        InputStream is = url.openStream();
+	        int ptr = 0;
+	        StringBuffer buffer = new StringBuffer();
+	        while ((ptr = is.read()) != -1) {
+	            buffer.append((char)ptr);
+	        }
+	      
 	        
-	        String file = "D:"+File.separator+"xammmp7.4"+File.separator+"mysql"+File.separator+"data"+File.separator+"amazon"+File.separator+"Amazon_data.csv";
-	        String fileName = "Amazon_data.csv";
-	        DataSource source = new FileDataSource(file);
-	        messageBodyPart.setDataHandler(new DataHandler(source));
-	        messageBodyPart.setFileName(fileName);
-	        multipart.addBodyPart(messageBodyPart);
-
-	        message.setContent(multipart);
-
-	        System.out.println("Sending PDF to email:");
+	        message.setContent(buffer.toString(),"text/html" );
 	        
 	        Transport.send(message);
 	        
-	        System.out.println("PDF sent!");
-	        break;
+	        System.out.println("Email sent!");
+	  
 		    } 
 		    catch (MessagingException e) {
 		        e.printStackTrace();
 		        System.out.println("Sending Mail waiting:");
 		        Thread.sleep(1000);
 		    }
-	    }
+	    
 	}
 public void getFileList() {
 	
@@ -82,6 +82,6 @@ public void getFileList() {
 
 public static void main(String[] args)throws Exception {
 
-			
+			new SendEmail();
   }
 }

@@ -36,29 +36,32 @@ public class FindFileByExtension extends Thread{
 		    	try {
 		    		
 		    		Thread.sleep(1000);
-		            List<String> files = findFiles(Paths.get("D:"+File.separator+"xammmp7.4"+File.separator+"mysql"+File.separator+"data"+File.separator+"amazon"), "csv");            
+		            List<String> files = findFiles(Paths.get("C:"+File.separator+"xampp"+File.separator+"mysql"+File.separator+"data"+File.separator+"amazon"), "csv");            
 		            
 		            File f=new File(files.get(0));
 		            //File fileName = new File("D:"+File.separator+"xammmp7.4"+File.separator+"mysql"+File.separator+"data"+File.separator+"amazon"+File.separator+"Amazon_data");    
-					 f.renameTo(new File("D:"+File.separator+"xammmp7.4"+File.separator+"mysql"+File.separator+"data"+File.separator+"amazon"+File.separator+"Amazon_data.csv"));			            
+					 f.renameTo(new File("C:"+File.separator+"xampp"+File.separator+"mysql"+File.separator+"data"+File.separator+"amazon"+File.separator+"Amazon_data.csv"));			            
 					 System.out.println("File renamed");
 					 
-					 stmt.execute("DELETE FROM `amazon_data2`");
+					 
 					 
 					 stmt.execute("LOAD DATA INFILE 'Amazon_data.csv' \r\n"
-					 		+ "INTO TABLE amazon_data2 \r\n"
+					 		+ "INTO TABLE amazon_data \r\n"
 					 		+ "FIELDS TERMINATED BY ',' \r\n"
 					 		+ "ENCLOSED BY '\"'\r\n"
 					 		+ "LINES TERMINATED BY '\\n'\r\n"
 					 		+ "IGNORE 1 ROWS;");
 					 
 					 driver.get("http://localhost/amazonCSV/query.php");
-					 Thread.sleep(3000);
-					 Path fileToDeletePath = Paths.get("D:"+File.separator+"xammmp7.4"+File.separator+"mysql"+File.separator+"data"+File.separator+"amazon"+File.separator+"Amazon_data.csv");
+					 area.append("Sending to email\n");
+					 new SendEmail();
+					 Thread.sleep(4000);
+					 stmt.execute("DELETE FROM `amazon_data`");
+					 Path fileToDeletePath = Paths.get("C:"+File.separator+"xampp"+File.separator+"mysql"+File.separator+"data"+File.separator+"amazon"+File.separator+"Amazon_data.csv");
 					 Files.delete(fileToDeletePath);
 					 
 					 area.append("process complete\n");
-					 //new SendEmail();
+					
 					 break;
 		        } catch (IOException e) {
 		            e.printStackTrace();

@@ -32,7 +32,7 @@ public class Amazon_Bot extends Thread{
 			System.setProperty("webdriver.chrome.driver", "C:\\Jars\\chromedriver.exe");		
 			HashMap<String,Object> chromePrefs = new HashMap<String, Object>();
 			chromePrefs.put("plugins.always_open_pdf_externally", true);
-			chromePrefs.put("download.default_directory", "D:"+File.separator+"xammmp7.4"+File.separator+"mysql"+File.separator+"data"+File.separator+"amazon");
+			chromePrefs.put("download.default_directory", "C:"+File.separator+"xampp"+File.separator+"mysql"+File.separator+"data"+File.separator+"amazon");
 			chromePrefs.put("excludeSwitches", "enable-popup-blocking");	
 			ChromeOptions options = new ChromeOptions();
 			options.setExperimentalOption("prefs", chromePrefs);
@@ -48,8 +48,7 @@ public class Amazon_Bot extends Thread{
 			driver.get("https://www.amazon.com/b2b/aba/?ref_=abn_bnav_ya_ap_oh");
 			area.append("Waiting for CSV to download\n");
 			Thread.sleep(4000);
-			driver.findElement(By.linkText("Orders")).click();
-			
+			driver.findElement(By.linkText("Orders")).click();		
 			Thread.sleep(4000);
 			driver.findElement(By.id("download-csv-file-button")).click();
 			
