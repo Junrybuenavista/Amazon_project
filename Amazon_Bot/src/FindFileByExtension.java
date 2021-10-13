@@ -19,12 +19,14 @@ public class FindFileByExtension extends Thread{
 	WebDriver driver;
 	Statement stmt;
 	JTextArea area;
+	String emailToSend;
     public static void main(String[] args) {
 
     }
-    public FindFileByExtension(WebDriver driver,JTextArea area) {
+    public FindFileByExtension(WebDriver driver,JTextArea area,String emailToSend) {
     	this.driver=driver;
     	this.area=area;
+    	this.emailToSend=emailToSend;
     	setDataBaseConnection();
     }
    
@@ -54,7 +56,7 @@ public class FindFileByExtension extends Thread{
 					 
 					 driver.get("http://localhost/amazonCSV/query.php");
 					 area.append("Sending to email\n");
-					 new SendEmail();
+					 new SendEmail(emailToSend);
 					 Thread.sleep(4000);
 					 stmt.execute("DELETE FROM `amazon_data`");
 					 Path fileToDeletePath = Paths.get("C:"+File.separator+"xampp"+File.separator+"mysql"+File.separator+"data"+File.separator+"amazon"+File.separator+"Amazon_data.csv");

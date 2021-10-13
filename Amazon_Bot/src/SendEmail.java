@@ -24,7 +24,7 @@ import javax.mail.internet.MimeMultipart;
 
 public class SendEmail {
 	
-public SendEmail() throws Exception
+public SendEmail(String emailToSend) throws Exception
 {		
 		
 		
@@ -50,7 +50,7 @@ public SendEmail() throws Exception
 	        message.setFrom(new InternetAddress("buenavistajunry@gmail.com"));
 	        message.setRecipients(Message.RecipientType.TO,
 	                //InternetAddress.parse("junrybuenavista@yahoo.com"));
-	        		InternetAddress.parse("michaelvinocur@htgrp.net"));
+	        		InternetAddress.parse(emailToSend));
 	        message.setSubject("Testing Subject");
 	        
 	        URL url = new URL("http://localhost/amazonCSV/query.php");
@@ -82,6 +82,6 @@ public void getFileList() {
 
 public static void main(String[] args)throws Exception {
 
-			new SendEmail();
+			
   }
 }

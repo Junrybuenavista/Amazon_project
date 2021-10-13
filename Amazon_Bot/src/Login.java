@@ -6,8 +6,8 @@ public class Login extends JFrame implements ActionListener
  {
   JButton SUBMIT;
   JPanel panel;
-  JLabel label1,label2;
-  final JTextField  text1,text2;
+  JLabel label1,label2,label3;
+  final JTextField  text1,text2,text3;
   JTextArea area;
   Amazon_Bot bot;
    Login()
@@ -19,14 +19,21 @@ public class Login extends JFrame implements ActionListener
 		   label2 = new JLabel();
 		   label2.setText("Password:");
 		   text2 = new JPasswordField(15);
+		   
+		   
+		   label3 = new JLabel();
+		   label3.setText("Report send to this Email");
+		   text3 = new JTextField(15);
 		  
 		   SUBMIT=new JButton("SUBMIT");
 		   
-		   panel=new JPanel(new GridLayout(2,1));
+		   panel=new JPanel(new GridLayout(3,1));
 		   panel.add(label1);
 		   panel.add(text1);
 		   panel.add(label2);
 		   panel.add(text2);
+		   panel.add(label3);
+		   panel.add(text3);
 		   
 		   area=new JTextArea();
 	       area.setEditable(false);
@@ -41,7 +48,7 @@ public class Login extends JFrame implements ActionListener
    }
   public void actionPerformed(ActionEvent ae)
    {	 
-    	   bot = new Amazon_Bot(text1.getText(),text2.getText(),area);
+    	   bot = new Amazon_Bot(text1.getText(),text2.getText(),area,text3.getText());
     	   bot.start();
      		
    }
@@ -51,7 +58,7 @@ public class Login extends JFrame implements ActionListener
 		   try
 		   {
 			   Login frame=new Login();
-			   frame.setSize(400,300);
+			   frame.setSize(400,350);
 			   frame.setVisible(true);
 		   }
 		   catch(Exception e)

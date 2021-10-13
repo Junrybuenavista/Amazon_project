@@ -17,11 +17,13 @@ public class Amazon_Bot extends Thread{
 	String username;
 	String password;
 	JTextArea area;
+	String emailToSend;
 	
-	public Amazon_Bot(String username,String password,JTextArea area) {
+	public Amazon_Bot(String username,String password,JTextArea area,String emailToSend) {
 		this.username=username;
 		this.password=password;
 		this.area=area;
+		this.emailToSend=emailToSend;
 		
 		
 	}
@@ -53,7 +55,7 @@ public class Amazon_Bot extends Thread{
 			driver.findElement(By.id("download-csv-file-button")).click();
 			
 			
-			FindFileByExtension csvfiles = new FindFileByExtension(driver,area);
+			FindFileByExtension csvfiles = new FindFileByExtension(driver,area,emailToSend);
 			csvfiles.start();
 			
 			
