@@ -28,8 +28,11 @@ public SendEmail(String emailToSend) throws Exception
 {		
 		
 		
-	 	final String username = "buenavistajunry@gmail.com";
-	    final String password = "xidwgumwwowibzwt";
+	 	//final String username = "ap-nbv@nbvresorts.com";
+	    //final String password = "Villagelife2020!+";
+	
+	    final String username = "buenavistajunry@gmail.com";
+        final String password = "Killingmesoftly2";
 
 	    Properties props = new Properties();
 	    props.put("mail.smtp.ssl.protocols", "TLSv1.2");
@@ -49,11 +52,10 @@ public SendEmail(String emailToSend) throws Exception
 	        Message message = new MimeMessage(session);
 	        message.setFrom(new InternetAddress("buenavistajunry@gmail.com"));
 	        message.setRecipients(Message.RecipientType.TO,
-	                //InternetAddress.parse("junrybuenavista@yahoo.com"));
-	        		InternetAddress.parse(emailToSend));
+	        		InternetAddress.parse("junrybuenavista@yahoo.com"));
 	        message.setSubject("Testing Subject");
 	        
-	        URL url = new URL("http://localhost/amazonCSV/query.php");
+	        URL url = new URL(emailToSend);
 	        InputStream is = url.openStream();
 	        int ptr = 0;
 	        StringBuffer buffer = new StringBuffer();
@@ -81,7 +83,7 @@ public void getFileList() {
 }
 
 public static void main(String[] args)throws Exception {
-
+	new SendEmail("");
 			
   }
 }

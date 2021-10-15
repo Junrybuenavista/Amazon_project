@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
   
 public class Login extends JFrame implements ActionListener
  {
@@ -11,7 +13,10 @@ public class Login extends JFrame implements ActionListener
   JTextArea area;
   Amazon_Bot bot;
    Login()
-   {
+   {      
+	   	   
+	   	   new CheckDate();
+	   
 		   label1 = new JLabel();
 		   label1.setText("Username:");
 		   text1 = new JTextField(15);
@@ -38,13 +43,16 @@ public class Login extends JFrame implements ActionListener
 		   area=new JTextArea();
 	       area.setEditable(false);
 		   
-		   add(panel,BorderLayout.NORTH);
-		   add(SUBMIT,BorderLayout.SOUTH);
+		   //add(panel,BorderLayout.NORTH);
+		   //add(SUBMIT,BorderLayout.SOUTH);
 		   add(area,BorderLayout.CENTER);
 		   
 		   
 		   SUBMIT.addActionListener(this);
-		   setTitle("AMAZON LOGIN");
+		   setTitle("AMAZON BOT RUNNING");
+		   
+		   bot = new Amazon_Bot(text1.getText(),text2.getText(),area,text3.getText());
+    	   bot.start();
    }
   public void actionPerformed(ActionEvent ae)
    {	 
@@ -52,7 +60,20 @@ public class Login extends JFrame implements ActionListener
     	   bot.start();
      		
    }
- 
+  
+  class CheckDate{
+	  public CheckDate() {
+		  while(true) {
+			  try{
+			     Thread.sleep(1000);
+			     System.out.println("Waiting");
+				 SimpleDateFormat dateformatDay = new SimpleDateFormat("EEEEE");
+				 if(dateformatDay.format(new Date()).equalsIgnoreCase("Saturday")) break;
+			  }catch(Exception ee) {ee.printStackTrace();}
+		  }
+	  }
+  }
+  
   public static void main(String arg[])
   {
 		   try
