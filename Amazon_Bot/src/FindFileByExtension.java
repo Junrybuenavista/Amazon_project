@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 
 import javax.swing.JTextArea;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class FindFileByExtension extends Thread{
@@ -23,18 +24,25 @@ public class FindFileByExtension extends Thread{
 	Statement stmt;
 	JTextArea area;
 	String emailToSend;
+	Amazon_Bot bot;
+	SimpleDateFormat dateFormat;
+	boolean monitor;
     public static void main(String[] args) {
 
     }
-    public FindFileByExtension(WebDriver driver,JTextArea area,String emailToSend) {
+    public FindFileByExtension(WebDriver driver,JTextArea area,String emailToSend,Amazon_Bot bot) {
     	this.driver=driver;
     	this.area=area;
     	this.emailToSend=emailToSend;
+    	this.bot=bot;
     	setDataBaseConnection();
+    	dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     }
    
     
     public void run() {
+    	
+    	
     	while(true) 
     	{	
     		   
@@ -135,13 +143,17 @@ public class FindFileByExtension extends Thread{
 					 
 					 driver.get("http://localhost/amazonCSV/query.php?currentday="+todate+"&lastweek="+fromdate);
 					 area.append("Sending to email\n");
-					 new SendEmail("http://localhost/amazonCSV/query.php?currentday="+todate+"&lastweek="+fromdate);
+					 //new SendEmail("http://localhost/amazonCSV/query.php?currentday="+todate+"&lastweek="+fromdate);
 					 Thread.sleep(4000);
 					 stmt.execute("DELETE FROM `amazon_data`");
 					 Path fileToDeletePath = Paths.get("C:"+File.separator+"xampp"+File.separator+"mysql"+File.separator+"data"+File.separator+"amazon"+File.separator+"Amazon_data.csv");
 					 Files.delete(fileToDeletePath);
 					 
 					 area.append("process complete\n");
+					 stmt.execute("INSERT INTO updates VALUES ('Done','"+dateFormat.format(new Date())+"')");
+					
+					 Thread.sleep(2000);
+					 bot.resume();
 					 break;
 		        } catch (IOException e) {
 		            e.printStackTrace();

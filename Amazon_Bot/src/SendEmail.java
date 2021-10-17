@@ -1,33 +1,27 @@
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
-import javax.activation.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
+
 
 
 
 public class SendEmail {
-	
-public SendEmail(String emailToSend) throws Exception
+
+Statement st;
+ResultSet rs;
+public SendEmail(String lastweek,String today) throws Exception
 {		
 		
-		
+		setDataBaseConnection();
 	 	//final String username = "ap-nbv@nbvresorts.com";
 	    //final String password = "Villagelife2020!+";
 	
@@ -55,16 +49,60 @@ public SendEmail(String emailToSend) throws Exception
 	        		InternetAddress.parse("junrybuenavista@yahoo.com"));
 	        message.setSubject("Testing Subject");
 	        
-	        URL url = new URL(emailToSend);
-	        InputStream is = url.openStream();
-	        int ptr = 0;
-	        StringBuffer buffer = new StringBuffer();
-	        while ((ptr = is.read()) != -1) {
-	            buffer.append((char)ptr);
-	        }
+	       
 	      
+	        SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+	        DecimalFormat df=new DecimalFormat("#.##");
 	        
-	        message.setContent(buffer.toString(),"text/html" );
+	        String Htmldoc="<style>\r\n"
+	        		+ "table, td, th {\r\n"
+	        		+ "  border: 1px solid black;\r\n"
+	        		+ "}\r\n"
+	        		+ "\r\n"
+	        		+ "table {\r\n"
+	        		+ "  border-collapse: collapse;\r\n"
+	        		+ "  width: 100%;\r\n"
+	        		+ "}\r\n"
+	        		+ "\r\n"
+	        		+ "td {\r\n"
+	        		+ "  text-align: center;\r\n"
+	        		+ "}\r\n"
+	        		+ "</style>";
+	        
+	        
+	        Htmldoc+="<center><h1>Amazon Sales Tax Report</h1></center>";
+	        Htmldoc+="<center><h3>Date:"+dateformat.format(new Date())+"</h3></center>";
+	        Htmldoc+="<table>\r\n"
+	        		+ "  <tr>\r\n"
+	        		+ "    <th>Order Date</th>\r\n"
+	        		+ "	<th>Location</th>\r\n"
+	        		+ "    <th>Order Number</th>\r\n"
+	        		+ "    <th>Item Name</th>\r\n"
+	        		+ "	<th>Item Price</th>\r\n"
+	        		+ "	<th>QTY</th>\r\n"
+	        		+ "	<th>Estimated Tax</th>\r\n"
+	        		+ "  </tr>";
+	        
+	        rs=st.executeQuery("SELECT Order_Date, Order_ID, Title, Item_Subtotal, Item_Quantity, Location FROM amazon_data WHERE (Item_Tax = '' OR Item_Tax = '0') AND Order_Date between '"+lastweek+"' and '"+today+"'  ORDER BY Order_Date");
+		    while(rs.next()){
+		    	
+		    	double total = rs.getDouble("Item_Subtotal");
+		    	int quantity = rs.getInt("Item_Quantity");
+		    	double price = total/quantity;
+		    	double estTax= total * 0.07;
+		    	 Htmldoc+=" \r\n"
+		    	 		+ "			<tr>\r\n"
+		    	 		+ "			<td>"+rs.getString("Order_date")+"</td>\r\n"
+		    	 		+ "			<td>"+rs.getString("Location")+"</td>\r\n"
+		    	 		+ "			<td>"+rs.getString("Order_ID")+"</td>\r\n"
+		    	 		+ "			<td>"+rs.getString("Title")+"</td>\r\n"
+		    	 		+ "			<td>"+df.format(price)+"</td>\r\n"
+		    	 		+ "			<td>"+quantity+"</td>\r\n"
+		    	 		+ "			<td>"+df.format(estTax)+"</td>\r\n"
+		    	 		+ "		  </tr>";
+		    }
+		    Htmldoc+="</table>";
+	        message.setContent(Htmldoc,"text/html" );
 	        
 	        Transport.send(message);
 	        
@@ -78,12 +116,18 @@ public SendEmail(String emailToSend) throws Exception
 		    }
 	    
 	}
-public void getFileList() {
-	
+public void setDataBaseConnection() {
+	try{  
+		Class.forName("com.mysql.jdbc.Driver");  
+		Connection con=DriverManager.getConnection(  
+		"jdbc:mysql://localhost:3306/amazon","root","");  	
+		st=con.createStatement();
+		
+	   }catch(Exception e){ e.printStackTrace();}  
 }
 
 public static void main(String[] args)throws Exception {
-	new SendEmail("");
+	new SendEmail("2021-10-9","2021-10-16");
 			
   }
 }

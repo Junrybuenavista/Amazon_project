@@ -15,7 +15,7 @@ public class Login extends JFrame implements ActionListener
    Login()
    {      
 	   	   
-	   	   new CheckDate();
+	   	  
 	   
 		   label1 = new JLabel();
 		   label1.setText("Username:");
@@ -42,7 +42,6 @@ public class Login extends JFrame implements ActionListener
 		   
 		   area=new JTextArea();
 	       area.setEditable(false);
-		   
 		   //add(panel,BorderLayout.NORTH);
 		   //add(SUBMIT,BorderLayout.SOUTH);
 		   add(area,BorderLayout.CENTER);
@@ -50,40 +49,29 @@ public class Login extends JFrame implements ActionListener
 		   
 		   SUBMIT.addActionListener(this);
 		   setTitle("AMAZON BOT RUNNING");
+		   setVisible(false);
+		  
+		   bot = new Amazon_Bot(text1.getText(),text2.getText(),area,text3.getText(),this);
+	       bot.start(); 
+		  
 		   
-		   bot = new Amazon_Bot(text1.getText(),text2.getText(),area,text3.getText());
-    	   bot.start();
+		  
    }
   public void actionPerformed(ActionEvent ae)
    {	 
-    	   bot = new Amazon_Bot(text1.getText(),text2.getText(),area,text3.getText());
-    	   bot.start();
+    	  
      		
    }
-  
-  class CheckDate{
-	  public CheckDate() {
-		  while(true) {
-			  try{
-			     Thread.sleep(1000);
-			     System.out.println("Waiting");
-				 SimpleDateFormat dateformatDay = new SimpleDateFormat("EEEEE");
-				 if(dateformatDay.format(new Date()).equalsIgnoreCase("Saturday")) break;
-			  }catch(Exception ee) {ee.printStackTrace();}
-		  }
-	  }
-  }
-  
+   
   public static void main(String arg[])
   {
 		   try
 		   {
 			   Login frame=new Login();
 			   frame.setSize(400,350);
-			   frame.setVisible(true);
 		   }
 		   catch(Exception e)
 		   {JOptionPane.showMessageDialog(null, e.getMessage());}
-		   }
+  }
  }
  

@@ -1,4 +1,5 @@
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,6 +26,15 @@ public class DateTest {
 				System.out.println("From:"+fromdate);
 				System.out.println("to:"+todate);
 				System.out.println("Today is:"+dateformatDay.format(new Date()));
+				
+				
+				File folder = new File("C:"+File.separator+"xampp"+File.separator+"mysql"+File.separator+"data"+File.separator+"amazon");
+		        File fList[] = folder.listFiles();
+
+		        for (File f : fList) {
+		            if (f.getName().endsWith(".csv")) {
+		                f.delete(); 
+		            }}
 				
 		 }catch(ParseException e) {e.printStackTrace();}
 	}

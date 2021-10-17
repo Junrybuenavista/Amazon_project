@@ -1,5 +1,10 @@
 import java.io.File;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -13,54 +18,103 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 
+
+
+
+
+
+
 public class Amazon_Bot extends Thread{
 	WebDriver driver;
 	String username;
 	String password;
 	JTextArea area;
 	String emailToSend;
-	
-	public Amazon_Bot(String username,String password,JTextArea area,String emailToSend) {
+	SimpleDateFormat dateformatDay;	
+	Login log;
+	SimpleDateFormat dateFormat;
+	ResultSet rs;
+	Statement stmt;
+	public Amazon_Bot(String username,String password,JTextArea area,String emailToSend,Login log) {
 		this.username=username;
 		this.password=password;
 		this.area=area;
 		this.emailToSend=emailToSend;
+		this.log=log;
+		dateformatDay = new SimpleDateFormat("EEEEE");
+		dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		setDataBaseConnection();
 		
 		
 	}
 	public void run() {
-		try {
+		
+										
+				String currentdate="";
+				String status="";
+				boolean error=false;
+			
+				setBrowser();
+				while(true) 
+				{
+					try {
+								    
+									 Thread.sleep(1000);
+									 currentdate=dateFormat.format(new Date());							 
+								     System.out.println("Waiting");
+						     
+								     try {
+									     rs=stmt.executeQuery("select * from updates where update_date='"+currentdate+"'");
+									     rs.next();
+									     status=rs.getString("status");
+								     }catch(Exception ee) {}
+						     
+								    
+									 if(dateformatDay.format(new Date()).equalsIgnoreCase("Sunday")&&!status.equalsIgnoreCase("Dones")) 
+									 {      log.setVisible(true);
+									 										 		
+											area.append("Starting Amazon login\n");											
+											driver.get("https://www.amazon.com/ap/signin?openid.pape.max_auth_age=0&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&marketPlaceId=ATVPDKIKX0DER&language=en_US&pageId=amzn_business_inv_website&openid.return_to=https%3A%2F%2Fwww.amazon.com%2Fref%3Dab_reg_gateway&openid.assoc_handle=amzn_business_sso_us&openid.mode=checkid_setup&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&switch_account=signin&disableLoginPrepopulate=1&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&email=junrybuenavista@htgrp.net");																	
+											driver.findElement(By.id("ap_password")).sendKeys("Amazon123");																						
+											onClickId("Amazon Login","signInSubmit");											
+											Thread.sleep(4000);
+											driver.get("https://www.amazon.com/b2b/aba/?ref_=abn_bnav_ya_ap_oh");
+											area.append("Waiting for CSV to download\n");																												
+											Thread.sleep(4000);
+											driver.findElement(By.linkText("Orders")).click();																	
+											status="";										
+											Thread.sleep(4000);
+											driver.findElement(By.id("download-csv-file-button")).click();
+		
+											FindFileByExtension csvfiles = new FindFileByExtension(driver,area,emailToSend,this);
+											csvfiles.start();										
+											suspend();
+												
+										}
+																 
+							}catch(Exception ee) {ee.printStackTrace();}
 						
-			
-			System.setProperty("webdriver.chrome.driver", "C:\\Jars\\chromedriver.exe");		
-			HashMap<String,Object> chromePrefs = new HashMap<String, Object>();
-			chromePrefs.put("plugins.always_open_pdf_externally", true);
-			chromePrefs.put("download.default_directory", "C:"+File.separator+"xampp"+File.separator+"mysql"+File.separator+"data"+File.separator+"amazon");
-			chromePrefs.put("excludeSwitches", "enable-popup-blocking");	
-			ChromeOptions options = new ChromeOptions();
-			options.setExperimentalOption("prefs", chromePrefs);
-			driver = new ChromeDriver(options);
-			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+					
+				}
+					
+					
 				
-			
-		    area.append("Starting Amazon login\n");  
-			driver.get("https://www.amazon.com/ap/signin?openid.pape.max_auth_age=0&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&marketPlaceId=ATVPDKIKX0DER&language=en_US&pageId=amzn_business_inv_website&openid.return_to=https%3A%2F%2Fwww.amazon.com%2Fref%3Dab_reg_gateway&openid.assoc_handle=amzn_business_sso_us&openid.mode=checkid_setup&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&switch_account=signin&disableLoginPrepopulate=1&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&email=junrybuenavista@htgrp.net");
-			driver.findElement(By.id("ap_password")).sendKeys("Amazon123");
-			onClickId("Amazon Login","signInSubmit");
-			Thread.sleep(4000);
-			driver.get("https://www.amazon.com/b2b/aba/?ref_=abn_bnav_ya_ap_oh");
-			area.append("Waiting for CSV to download\n");
-			Thread.sleep(4000);
-			driver.findElement(By.linkText("Orders")).click();		
-			Thread.sleep(4000);
-			driver.findElement(By.id("download-csv-file-button")).click();
-			
-			
-			FindFileByExtension csvfiles = new FindFileByExtension(driver,area,emailToSend);
-			csvfiles.start();
-			
-			
-		}catch(Exception ee) {ee.printStackTrace();}
+				
+	}
+	
+	public void setBrowser() {
+		deleteAllCsv();
+		System.setProperty("webdriver.chrome.driver", "C:\\Jars\\chromedriver.exe");		
+		HashMap<String,Object> chromePrefs = new HashMap<String, Object>();
+		chromePrefs.put("plugins.always_open_pdf_externally", true);
+		chromePrefs.put("download.default_directory", "C:"+File.separator+"xampp"+File.separator+"mysql"+File.separator+"data"+File.separator+"amazon");
+		chromePrefs.put("excludeSwitches", "enable-popup-blocking");	
+		ChromeOptions options = new ChromeOptions();
+		options.setExperimentalOption("prefs", chromePrefs);
+		driver = new ChromeDriver(options);
+		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		
+		
 	}
 	public void onClickId(String title,String input) throws Exception
 	{
@@ -83,8 +137,26 @@ public class Amazon_Bot extends Thread{
 			catch(Exception ee) {}
 		}
 	}
-	
-	
+	public void setDataBaseConnection() {
+		try{  
+			Class.forName("com.mysql.jdbc.Driver");  
+			Connection con=DriverManager.getConnection(  
+			"jdbc:mysql://localhost:3306/amazon","root","");  	
+			 stmt=con.createStatement();
+			
+			
+		   }catch(Exception e){ e.printStackTrace();}  
+	}
+	public void deleteAllCsv() {
+		
+		File folder = new File("C:"+File.separator+"xampp"+File.separator+"mysql"+File.separator+"data"+File.separator+"amazon");
+        File fList[] = folder.listFiles();
+
+        for (File f : fList) {
+            if (f.getName().endsWith(".csv")) {
+                f.delete(); 
+            }}
+	}
 	
 	public static void main(String args[]) {
 		
