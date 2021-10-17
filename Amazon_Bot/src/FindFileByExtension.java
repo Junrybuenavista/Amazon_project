@@ -141,9 +141,9 @@ public class FindFileByExtension extends Thread{
 				        Date todate1 = cal.getTime();    
 				        String fromdate = dateformat.format(todate1);
 					 
-					 driver.get("http://localhost/amazonCSV/query.php?currentday="+todate+"&lastweek="+fromdate);
+					 //driver.get("http://localhost/amazonCSV/query.php?currentday="+todate+"&lastweek="+fromdate);
 					 area.append("Sending to email\n");
-					 //new SendEmail("http://localhost/amazonCSV/query.php?currentday="+todate+"&lastweek="+fromdate);
+					 new SendEmail(fromdate,todate);
 					 Thread.sleep(4000);
 					 stmt.execute("DELETE FROM `amazon_data`");
 					 Path fileToDeletePath = Paths.get("C:"+File.separator+"xampp"+File.separator+"mysql"+File.separator+"data"+File.separator+"amazon"+File.separator+"Amazon_data.csv");

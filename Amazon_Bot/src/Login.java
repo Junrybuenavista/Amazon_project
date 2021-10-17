@@ -69,6 +69,8 @@ public class Login extends JFrame implements ActionListener
 		   {
 			   Login frame=new Login();
 			   frame.setSize(400,350);
+			   frame.setLocation(500,300);
+			   frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		   }
 		   catch(Exception e)
 		   {JOptionPane.showMessageDialog(null, e.getMessage());}

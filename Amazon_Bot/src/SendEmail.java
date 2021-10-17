@@ -54,33 +54,34 @@ public SendEmail(String lastweek,String today) throws Exception
 	        SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
 	        DecimalFormat df=new DecimalFormat("#.##");
 	        
-	        String Htmldoc="<style>\r\n"
-	        		+ "table, td, th {\r\n"
-	        		+ "  border: 1px solid black;\r\n"
-	        		+ "}\r\n"
-	        		+ "\r\n"
-	        		+ "table {\r\n"
-	        		+ "  border-collapse: collapse;\r\n"
-	        		+ "  width: 100%;\r\n"
-	        		+ "}\r\n"
-	        		+ "\r\n"
-	        		+ "td {\r\n"
-	        		+ "  text-align: center;\r\n"
-	        		+ "}\r\n"
+	        String Htmldoc="<style>"
+	        		+ "table, td, th {"
+	        		+ "  border: 1px solid black;"
+	        		+ "}"
+	        		+ ""
+	        		+ "table {"
+	        		+ "  border-collapse: collapse;"
+	        		+ "  width: 100%;"
+	        		+ "}"
+	        		+ ""
+	        		+ "td,th {"
+	        		+ "  text-align: center;"
+	        		+ "}"
 	        		+ "</style>";
 	        
 	        
 	        Htmldoc+="<center><h1>Amazon Sales Tax Report</h1></center>";
 	        Htmldoc+="<center><h3>Date:"+dateformat.format(new Date())+"</h3></center>";
-	        Htmldoc+="<table>\r\n"
-	        		+ "  <tr>\r\n"
-	        		+ "    <th>Order Date</th>\r\n"
-	        		+ "	<th>Location</th>\r\n"
-	        		+ "    <th>Order Number</th>\r\n"
-	        		+ "    <th>Item Name</th>\r\n"
-	        		+ "	<th>Item Price</th>\r\n"
-	        		+ "	<th>QTY</th>\r\n"
-	        		+ "	<th>Estimated Tax</th>\r\n"
+	        	
+	        Htmldoc+="<table>"
+	        		+ "  <tr>"
+	        		+ "    <th>Order Date</th>"
+	        		+ "	<th>Location</th>"
+	        		+ "    <th>Order Number</th>"
+	        		+ "    <th>Item Name</th>"
+	        		+ "	<th>Item Price</th>"
+	        		+ "	<th>QTY</th>"
+	        		+ "	<th>Estimated Tax</th>"
 	        		+ "  </tr>";
 	        
 	        rs=st.executeQuery("SELECT Order_Date, Order_ID, Title, Item_Subtotal, Item_Quantity, Location FROM amazon_data WHERE (Item_Tax = '' OR Item_Tax = '0') AND Order_Date between '"+lastweek+"' and '"+today+"'  ORDER BY Order_Date");
