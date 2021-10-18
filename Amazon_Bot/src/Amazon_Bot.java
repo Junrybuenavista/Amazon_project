@@ -69,7 +69,7 @@ public class Amazon_Bot extends Thread{
 								     }catch(Exception ee) {}
 						     
 								    
-									 if(dateformatDay.format(new Date()).equalsIgnoreCase("Sunday")&&!status.equalsIgnoreCase("Done")) 
+									 if(dateformatDay.format(new Date()).equalsIgnoreCase("Monday")) 
 									 {      	setBrowser();								 			
 									 			log.setVisible(true);
 										 		while(true) {

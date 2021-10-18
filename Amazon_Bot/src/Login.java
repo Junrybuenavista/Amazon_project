@@ -39,12 +39,18 @@ public class Login extends JFrame implements ActionListener
 		   panel.add(text2);
 		   panel.add(label3);
 		   panel.add(text3);
-		   
+		      
 		   area=new JTextArea();
+		   JScrollPane scrollableTextArea = new JScrollPane(area);
+		   scrollableTextArea.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
+		        public void adjustmentValueChanged(AdjustmentEvent e) {  
+		            e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
+		        }
+		    });
 	       area.setEditable(false);
 		   //add(panel,BorderLayout.NORTH);
 		   //add(SUBMIT,BorderLayout.SOUTH);
-		   add(area,BorderLayout.CENTER);
+		   add(scrollableTextArea,BorderLayout.CENTER);
 		   
 		   
 		   SUBMIT.addActionListener(this);

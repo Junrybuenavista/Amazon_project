@@ -46,7 +46,7 @@ public SendEmail(String lastweek,String today) throws Exception
 	        Message message = new MimeMessage(session);
 	        message.setFrom(new InternetAddress("buenavistajunry@gmail.com"));
 	        message.setRecipients(Message.RecipientType.TO,
-	        		InternetAddress.parse("junrybuenavista@yahoo.com"));
+	        		InternetAddress.parse("michaelvinocur@htgrp.net"));
 	        message.setSubject("Testing Subject");
 	        
 	       
@@ -105,7 +105,7 @@ public SendEmail(String lastweek,String today) throws Exception
 		    Htmldoc+="</table>";
 	        message.setContent(Htmldoc,"text/html" );
 	        
-	        Transport.send(message);
+	        //Transport.send(message);
 	        
 	        System.out.println("Email sent!");
 	  
