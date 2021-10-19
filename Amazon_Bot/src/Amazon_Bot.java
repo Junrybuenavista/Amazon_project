@@ -50,7 +50,7 @@ public class Amazon_Bot extends Thread{
 	public void run() {
 		
 										
-				String currentdate="";
+				String currentdate="";	
 				String status="";
 				setDataBaseConnection();
 				
@@ -59,17 +59,11 @@ public class Amazon_Bot extends Thread{
 					try {
 								    
 									 Thread.sleep(1000);
-									 currentdate=dateFormat.format(new Date());							 
+									 						 
 								     System.out.println("Waiting");
-						     
-								     try {
-									     rs=stmt.executeQuery("select * from updates where update_date='"+currentdate+"'");
-									     rs.next();
-									     status=rs.getString("status");
-								     }catch(Exception ee) {}
-						     
-								    
-									 if(dateformatDay.format(new Date()).equalsIgnoreCase("Monday")) 
+								     System.out.println(currentdate);
+			    
+									 if(dateformatDay.format(new Date()).equalsIgnoreCase("Monday")&&!currentdate.equalsIgnoreCase(dateFormat.format(new Date()))) 
 									 {      	setBrowser();								 			
 									 			log.setVisible(true);
 										 		while(true) {
@@ -91,9 +85,9 @@ public class Amazon_Bot extends Thread{
 															csvfiles.start();										
 															suspend();
 															driver.quit();
-															
+															log.setVisible(false);
 															Thread.sleep(2000);
-															System.exit(0);
+															currentdate = dateFormat.format(new Date());
 															break;
 										 			}catch(Exception ee) {}
 										 		}

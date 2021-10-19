@@ -22,11 +22,11 @@ public SendEmail(String lastweek,String today) throws Exception
 {		
 		
 		setDataBaseConnection();
-	 	//final String username = "ap-nbv@nbvresorts.com";
-	    //final String password = "Villagelife2020!+";
+	 	final String username = "ap-nbv@nbvresorts.com";
+	    final String password = "Villagelife2020!+";
 	
-	    final String username = "buenavistajunry@gmail.com";
-        final String password = "Killingmesoftly2";
+	    //final String username = "buenavistajunry@gmail.com";
+        //final String password = "Killingmesoftly2";
 
 	    Properties props = new Properties();
 	    props.put("mail.smtp.ssl.protocols", "TLSv1.2");
@@ -44,10 +44,10 @@ public SendEmail(String lastweek,String today) throws Exception
 	  
 	    try {
 	        Message message = new MimeMessage(session);
-	        message.setFrom(new InternetAddress("buenavistajunry@gmail.com"));
+	        message.setFrom(new InternetAddress("ap-nbv@nbvresorts.com"));
 	        message.setRecipients(Message.RecipientType.TO,
-	        		InternetAddress.parse("michaelvinocur@htgrp.net"));
-	        message.setSubject("Testing Subject");
+	        		InternetAddress.parse("cmeys@nbvresorts.com"));
+	        message.setSubject("Amazon Report");
 	        
 	       
 	      
@@ -105,7 +105,7 @@ public SendEmail(String lastweek,String today) throws Exception
 		    Htmldoc+="</table>";
 	        message.setContent(Htmldoc,"text/html" );
 	        
-	        //Transport.send(message);
+	        Transport.send(message);
 	        
 	        System.out.println("Email sent!");
 	  
