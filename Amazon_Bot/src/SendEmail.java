@@ -22,11 +22,11 @@ public SendEmail(String lastweek,String today) throws Exception
 {		
 		
 		setDataBaseConnection();
-	 	final String username = "ap-nbv@nbvresorts.com";
-	    final String password = "Villagelife2020!+";
+	 	final String username = "**";
+	    final String password = "**";
 	
 	    //final String username = "buenavistajunry@gmail.com";
-        //final String password = "Killingmesoftly2";
+        //final String password = "**";
 
 	    Properties props = new Properties();
 	    props.put("mail.smtp.ssl.protocols", "TLSv1.2");
