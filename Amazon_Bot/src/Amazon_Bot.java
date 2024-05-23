@@ -63,7 +63,7 @@ public class Amazon_Bot extends Thread{
 										 			try {	
 										 				 	Thread.sleep(1000);
 															area.append("Starting Amazon login\n");											
-															driver.get("https://www.amazon.com/ap/signin?openid.pape.max_auth_age=0&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&marketPlaceId=ATVPDKIKX0DER&language=en_US&pageId=amzn_business_inv_website&openid.return_to=https%3A%2F%2Fwww.amazon.com%2Fref%3Dab_reg_gateway&openid.assoc_handle=amzn_business_sso_us&openid.mode=checkid_setup&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&switch_account=signin&disableLoginPrepopulate=1&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&email=junrybuenavista@htgrp.net");																	
+															driver.get("https://www.amazon.com/ap/signin?openid.pape.max_auth_age=0&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&marketPlaceId=ATVPDKIKX0DER&language=en_US&pageId=amzn_business_inv_website&openid.return_to=https%3A%2F%2Fwww.amazon.com%2Fref%3Dab_reg_gateway&openid.assoc_handle=amzn_business_sso_us&openid.mode=checkid_setup&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&switch_account=signin&disableLoginPrepopulate=1&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&email=fsdfsfs");																	
 															driver.findElement(By.id("ap_password")).sendKeys("****");																						
 															onClickId("Amazon Login","signInSubmit");											
 															Thread.sleep(4000);
