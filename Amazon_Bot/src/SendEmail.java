@@ -44,9 +44,9 @@ public SendEmail(String lastweek,String today) throws Exception
 	  
 	    try {
 	        Message message = new MimeMessage(session);
-	        message.setFrom(new InternetAddress("ap-nbv@nbvresorts.com"));
+	        message.setFrom(new InternetAddress("afsfsf"));
 	        message.setRecipients(Message.RecipientType.TO,
-	        		InternetAddress.parse("cmeys@nbvresorts.com"));
+	        		InternetAddress.parse("fsfsfsf"));
 	        message.setSubject("Amazon Report");
 	        
 	       
